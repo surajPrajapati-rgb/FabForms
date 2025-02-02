@@ -10,11 +10,20 @@ FabForms targets **five core industries**, each with distinct user groups:
 
 ### **2. Needs, Pain Points, Challenges & Preferences**
 #### **Education**
-| **User Group** | **Needs** | **Pain Points** | **Preferences** |  
-|----------------|-----------|-----------------|--|  
-| **Teachers** | Engaging quizzes, auto-grading, student feedback | Manual grading, low student engagement | Mobile-friendly, gamified interfaces |  
-| **Professors** | Complex assessments, plagiarism checks | Time-consuming question creation |  |  
+| **User Group** | **Needs** | **Pain Points** | **Challenges** | **Preferences** |  
+|--------------|-----------|----------------|--------------|--------------|  
+| **Teachers** | Engaging quizzes, auto-grading, real-time student feedback | Manual grading is time-consuming, low student engagement | Ensuring students stay motivated, making assessments interactive | Mobile-friendly, gamified interfaces, AI-generated questions |  
+| **Professors** | Complex assessments, plagiarism detection, adaptive testing | Time-consuming question creation, difficult to track student performance over time | Academic integrity concerns, creating tests that challenge students without overwhelming them | AI-assisted question generation, customizable test formats, integration with LMS (e.g., Blackboard, Moodle) |  
+| **Students** | Interactive learning tools, instant personalized feedback, progress tracking | Boring, text-heavy forms, lack of immediate feedback | Difficulty understanding questions, accessibility issues for students with disabilities | Conversational UI, voice input, mobile accessibility, accessibility features (text-to-speech) |  
 
+## **HR (Human Resources)**
+| **User Group** | **Needs** | **Pain Points** | **Challenges** | **Preferences** |  
+|--------------|-----------|----------------|--------------|--------------|  
+| **Recruiters** | Candidate evaluation forms, digital onboarding checklists, interview feedback collection | Manual data entry, tracking multiple applicants across different platforms | Managing a high volume of applications, standardizing evaluation criteria | Auto-fill from resumes, AI-powered applicant ranking, integration with LinkedIn/ATS |  
+| **Employees** | Performance review forms, anonymous feedback tools, self-assessment surveys | Long, tedious forms, fear of biased evaluations | Encouraging honest feedback, reducing friction in the evaluation process | Mobile accessibility, progress-saving feature, anonymous mode |  
+| **HR Managers** | Survey analytics, compliance tracking, employee engagement measurement | Low survey response rates, difficulty analyzing large-scale feedback data | Gaining meaningful insights from qualitative responses | Automated reminders, interactive reports, sentiment analysis |  
+
+---
 #### **Healthcare**
 | **User Group** | **Needs** | **Pain Points** | **Preferences** |  
 |----------------|-----------|-----------------|-----------------|  
@@ -22,11 +31,6 @@ FabForms targets **five core industries**, each with distinct user groups:
 | **Nurses** | Quick form creation, real-time updates | Tech-averse patients | Voice/visual input support |  
 | **Medical Staff** | Data organization, compliance | Manual data transfers | Drag-and-drop form builders |  
 
-#### **HR**
-| **User Group** | **Needs** | **Pain Points** | **Preferences** |  
-|----------------|-----------|-----------------|-----------------|  
-| **HR Managers** | Employee surveys, onboarding workflows | Low response rates, fragmented tools | Pre-built templates, anonymous feedback |  
-| **Recruiters** | Candidate feedback, automation | Time-consuming recruitment forms | Integration with ATS (e.g., Greenhouse) |  
 
 #### **Marketing**
 | **User Group** | **Needs** | **Pain Points** | **Preferences** |  
