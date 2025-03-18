@@ -8,10 +8,6 @@ FabForms is a web application that transforms traditional forms into interactive
 - [Architecture](#architecture)
 - [Database Schema](#database-schema)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Overview
 FabForms revolutionizes form interactions by leveraging a microservices architecture and a document-centric NoSQL database. It offers an engaging, AI-driven form experience that adapts dynamically to user input.
@@ -99,19 +95,5 @@ For further details, please refer to the [Database Schema Documentation](./docs/
    # or
    yarn dev
    ```
-
-## Usage
-With the development server running, open your browser and navigate to [http://localhost:3000](http://localhost:3000). You can create and manage forms, view analytics, and interact with the conversational interface via the dashboard.
-
-## Configuration
-- **API Endpoints:** Accessible via `/api` routes. See the [API Documentation](./docs/api.md) for details.
-- **Database:** The MongoDB connection string is specified in the `.env` file.
-- **Caching & Messaging:** Redis settings and queue configurations are also managed via the `.env` file.
-
-## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request. For major changes, open an issue first to discuss your ideas.
-
-## License
-FabForms is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
 ---
