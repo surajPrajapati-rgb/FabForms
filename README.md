@@ -58,7 +58,7 @@ FabForms uses a document-centric NoSQL schema comprising four main collections:
 - **Conversations Collection:**  
   Manages interactive chat logs, contextual conversation data, and analytics for the conversational flow.
 
-For further details, please refer to the [Database Schema Documentation](./docs/db_schema.md).
+For further details, please refer to the [Database Schema Documentation]([./docs/db_schema.md](https://github.com/surajPrajapati-rgb/FabForms/blob/master/Documentation/NoSQL_Database_Schema_Design.md)).
 
 ## Installation
 
