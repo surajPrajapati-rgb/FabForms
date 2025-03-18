@@ -7,7 +7,6 @@ This file represents the document structure for each collection in the FabForms 
 
 ## 1. Users Collection
 
-```javascript
 const userSchema = {
   _id: ObjectId(),
   email: String,
