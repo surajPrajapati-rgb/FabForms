@@ -140,3 +140,6 @@ FabForms targets **five core industries**, each with distinct user groups:
 
 ### **UI Design**
 **Link**: https://www.figma.com/design/WQyxLAKiWOsXGqLHfEc5g7/Untitled?node-id=1-550&t=xEeYSzeP0RmXsJn4-1
+
+### **System Design**
+**Link**: https://www.mermaidchart.com/raw/dee00f7d-a20c-4870-a513-278dd6621981?theme=light&version=v0.1&format=svg
