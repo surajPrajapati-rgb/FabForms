@@ -137,3 +137,6 @@ FabForms targets **five core industries**, each with distinct user groups:
 ### **Prioritization**
 1. **MVP Features**: Conversational interface, dynamic logic, real-time validation.
 2. **Industry-Specific Modules**: Start with Education (quiz mode) and Healthcare (HIPAA compliance).
+
+### **UI Design**
+**Link**: https://www.figma.com/design/WQyxLAKiWOsXGqLHfEc5g7/Untitled?node-id=1-550&t=xEeYSzeP0RmXsJn4-1
