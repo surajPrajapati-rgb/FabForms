@@ -2,10 +2,11 @@
 # MongoDB Schema Design for FabForms
 
 This file represents the document structure for each collection in the FabForms application.
-
+```
 ---
 
 ## 1. Users Collection
+```javascript
 
 const userSchema = {
   _id: ObjectId(),
