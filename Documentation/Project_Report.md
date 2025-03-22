@@ -144,3 +144,6 @@ FabForms targets **five core industries**, each with distinct user groups:
 ### **Prioritization**
 1. **MVP Features**: Conversational interface, dynamic logic, real-time validation.
 2. **Industry-Specific Modules**: Start with Education (quiz mode) and Healthcare (HIPAA compliance).
+
+
+![Service-Oriented Architecture](https://github.com/surajPrajapati-rgb/FabForms/blob/984e7dc60007fd588730bd8e8e930f748cebbf09/Documentation/assets/Service-Oriented%20Architecture.png)
