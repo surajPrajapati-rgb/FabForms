@@ -1,277 +1,229 @@
-# Technical Report: NoSQL Database Schema Design for FabForms
-
-## 1. Executive Summary
-
-### Overview of FabForms
-FabForms is a web application that transforms traditional forms into interactive, conversational experiences powered by conversational AI. It supports multi-modal inputs (text, voice, images), dynamic branching logic, real-time AI feedback, and analytics across use cases like education (quizzes), healthcare (patient intake), marketing (lead generation), and ticketing (customer support).
-
-### Core Functionality
-- Form creation with versioning, branching logic, and multi-modal question types.
-- Real-time AI-driven suggestions and validation during form submission.
-- User management with roles, teams, and permissions.
-- Analytics for form performance, user engagement, and AI interactions.
-- Integration with external services (e.g., CRMs) and payment systems.
-
-### Key Objectives for Database Design
-- **Scalability**: Handle high-traffic forms and large datasets (e.g., millions of submissions).
-- **Performance**: Optimize for fast reads (form rendering, analytics) and real-time interactions.
-- **Flexibility**: Support dynamic schemas for evolving forms and AI logic.
-- **Security**: Protect sensitive data (e.g., healthcare records) with encryption and access controls.
-- **Maintainability**: Enable easy updates, backups, and performance tuning.
+### **1. Forms**
+```json
+{
+  "form_id": "form_12345",
+  "creator_id": "user_98765",
+  "organization_id": "org_45678",
+  "title": "Patient Intake Form",
+  "version": 2,
+  "created_by_prompt_id": "prompt_001",
+  "modified_by_prompt_ids": ["prompt_002"],
+  "questions": [
+    {
+      "question_id": "q1",
+      "text": "What is your name?",
+      "type": "text",
+      "is_required": true,
+      "alt_text": "Text input for name",
+      "position": 1,
+      "auto_fillable": true
+    },
+    {
+      "question_id": "q2",
+      "text": "What is your age?",
+      "type": "number",
+      "is_required": true,
+      "alt_text": "Number input for age",
+      "position": 2,
+      "auto_fillable": true
+    },
+    {
+      "question_id": "q3",
+      "text": "Do you have any allergies?",
+      "type": "text",
+      "is_required": false,
+      "alt_text": "Text input for allergies",
+      "position": 3,
+      "auto_fillable": false
+    }
+  ],
+  "branching_logic": {
+    "q3": {
+      "condition": "if q3 contains 'yes'",
+      "next_question": "q4"
+    }
+  },
+  "theme": {
+    "color": "#007BFF",
+    "logo_url": "https://example.com/logo.png"
+  },
+  "is_premium": false,
+  "created_at": "2025-03-16T10:00:00Z",
+  "updated_at": "2025-03-17T12:00:00Z",
+  "status": "published"
+}
+```
+- **Relationships**:
+  - `creator_id` links to `users.user_id`, identifying the form creator.
+  - `organization_id` links to an external organization entity (not detailed here).
+  - `created_by_prompt_id` and `modified_by_prompt_ids` link to `prompt_logs.prompt_id`, tracking AI-driven creation and modifications.
 
 ---
 
-## 2. Data Model Design
-
-The schema uses a document-centric NoSQL design, leveraging denormalization and embedding where appropriate to optimize read performance. Below are the key entities with JSON document structures, data types, and design rationale.
-
-### 2.1 Forms
-Stores form metadata, questions, and logic.
-
-#### Sample JSON Document
+### **2. User Profiles and Roles**
 ```json
 {
-  "formId": "form_12345",           // String: Unique identifier
-  "creatorId": "user_98765",        // String: Reference to user
-  "organizationId": "org_45678",    // String: Optional reference to organization
-  "title": "Patient Intake Form",   // String: Form title
-  "version": 1,                     // Number: Version for updates
-  "questions": [                    // Array: Embedded question objects
-    {
-      "questionId": "q1",           // String: Unique within form
-      "text": "Do you have a fever?", // String: Question text
-      "type": "text",               // String: Enum (text, file_upload, etc.)
-      "isRequired": true,           // Boolean: Required flag
-      "position": 1                 // Number: Display order
-    }
-  ],
-  "branchingLogic": {               // Object: Dynamic flow conditions
-    "q1": {
-      "condition": "contains 'yes'", // String: Logic condition
-      "nextQuestion": "q2"          // String: Next question ID
-    }
+  "user_id": "user_98765",
+  "email": "john.doe@example.com",
+  "name": "John Doe",
+  "roles": ["form_creator", "responder"],
+  "organization_ids": ["org_45678"],
+  "permissions": {
+    "can_edit_forms": true,
+    "can_view_analytics": false
   },
-  "theme": {                        // Object: Embedded styling
-    "color": "#007BFF"             // String: Custom styling
+  "static_data": {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "age": 30,
+    "address": "123 Main St"
   },
-  "isPremium": false,               // Boolean: Payment flag
-  "createdAt": "2025-03-16T10:00:00Z", // String: ISO timestamp
-  "updatedAt": "2025-03-16T10:00:00Z"  // String: ISO timestamp
+  "created_at": "2025-03-15T09:00:00Z"
 }
 ```
+- **Relationships**:
+  - `user_id` is referenced by `forms.creator_id`, `submissions.user_id`, and `prompt_logs.user_id`, connecting users to their forms, submissions, and prompts.
+  - `organization_ids` links to external organization entities.
 
-#### Design Choices
-- **Embedded Data**: `questions` and `branchingLogic` are embedded for fast retrieval during form rendering.
-- **Referenced Data**: `creatorId` and `organizationId` reference external entities to avoid duplication.
-- **Rationale**: Embedding optimizes reads, while references maintain consistency for user/organization updates.
+---
 
-### 2.2 User Profiles and Roles
-Manages users, roles, and permissions.
-
-#### Sample JSON Document
+### **3. Submission Data**
 ```json
 {
-  "userId": "user_98765",           // String: Unique identifier
-  "email": "john.doe@example.com",  // String: User email
-  "name": "John Doe",               // String: Full name
-  "roles": ["form_creator"],        // Array: Roles (admin, responder, etc.)
-  "organizationIds": ["org_45678"], // Array: Team affiliations
-  "permissions": {                  // Object: ABAC attributes
-    "canEditForms": true,          // Boolean: Permission flag
-    "canViewAnalytics": false      // Boolean: Permission flag
-  },
-  "createdAt": "2025-03-15T09:00:00Z" // String: ISO timestamp
-}
-```
-
-#### Design Choices
-- **Embedded Data**: `roles` and `permissions` are embedded for quick access control checks.
-- **Referenced Data**: `organizationIds` links to organizations, enabling many-to-many relationships.
-- **Rationale**: Embedding permissions reduces query overhead for authorization.
-
-### 2.3 Submissions
-Stores user responses and AI feedback.
-
-#### Sample JSON Document
-```json
-{
-  "submissionId": "sub_54321",      // String: Unique identifier
-  "formId": "form_12345",           // String: Reference to form
-  "userId": "user_98765",           // String: Optional user reference
-  "responses": [                    // Array: Embedded answers
+  "submission_id": "sub_54321",
+  "form_id": "form_12345",
+  "user_id": "user_98765",
+  "responses": [
     {
-      "questionId": "q1",           // String: Question reference
-      "answer": "Yes",             // String: User response
-      "type": "text",              // String: Response type
-      "timestamp": "2025-03-16T11:00:00Z" // String: ISO timestamp
+      "question_id": "q1",
+      "answer": "John Doe",
+      "type": "text",
+      "auto_filled": true,
+      "auto_filled_from": "user.static_data.name",
+      "timestamp": "2025-03-16T11:00:00Z"
+    },
+    {
+      "question_id": "q2",
+      "answer": "30",
+      "type": "number",
+      "auto_filled": true,
+      "auto_filled_from": "user.static_data.age",
+      "timestamp": "2025-03-16T11:00:00Z"
+    },
+    {
+      "question_id": "q3",
+      "answer": "Yes, I’m allergic to peanuts",
+      "type": "text",
+      "auto_filled": false,
+      "timestamp": "2025-03-16T11:01:00Z"
     }
   ],
-  "aiFeedback": [                   // Array: Real-time AI responses
+  "ai_feedback": [
     {
-      "message": "Please elaborate.", // String: AI suggestion
-      "timestamp": "2025-03-16T11:00:30Z" // String: ISO timestamp
+      "step": 1,
+      "suggestion": "Please provide more details about your allergies.",
+      "timestamp": "2025-03-16T11:01:30Z"
     }
   ],
-  "status": "completed",            // String: Enum (in_progress, completed)
-  "submittedAt": "2025-03-16T11:02:00Z" // String: ISO timestamp
+  "status": "completed",
+  "submitted_at": "2025-03-16T11:02:00Z"
 }
 ```
+- **Relationships**:
+  - `form_id` links to `forms.form_id`, associating the submission with a specific form.
+  - `user_id` links to `users.user_id`, identifying the submitter.
+  - `submission_id` is referenced by `conversations.submission_id`, connecting submissions to conversation logs.
 
-#### Design Choices
-- **Embedded Data**: `responses` and `aiFeedback` are embedded for single-document retrieval.
-- **Referenced Data**: `formId` and `userId` link to external entities.
-- **Rationale**: Embedding ensures fast submission retrieval, critical for real-time interactions.
+---
 
-### 2.4 Conversation Logs
-Tracks AI-driven chat flows.
-
-#### Sample JSON Document
+### **4. Conversation Logs**
 ```json
 {
-  "conversationId": "conv_78910",   // String: Unique identifier
-  "submissionId": "sub_54321",      // String: Reference to submission
-  "events": [                       // Array: Time-series events
+  "conversation_id": "conv_78910",
+  "submission_id": "sub_54321",
+  "events": [
     {
-      "eventId": "e1",             // String: Event identifier
-      "userInput": "I have a fever", // String: User message
-      "aiResponse": "Upload a photo.", // String: AI reply
-      "context": {                 // Object: NLP context
-        "intent": "symptom_report" // String: AI intent
+      "event_id": "e1",
+      "user_input": "I’m submitting the form.",
+      "ai_response": "I’ve auto-filled your name and age from your profile.",
+      "context": {
+        "intent": "form_submission",
+        "entities": ["name", "age"]
       },
-      "timestamp": "2025-03-16T11:00:30Z" // String: ISO timestamp
+      "timestamp": "2025-03-16T11:00:00Z"
+    },
+    {
+      "event_id": "e2",
+      "user_input": "Yes, I’m allergic to peanuts.",
+      "ai_response": "Thank you, submission completed.",
+      "context": {
+        "intent": "allergy_report"
+      },
+      "timestamp": "2025-03-16T11:01:00Z"
     }
   ],
-  "createdAt": "2025-03-16T11:00:00Z" // String: ISO timestamp
+  "created_at": "2025-03-16T11:00:00Z"
 }
 ```
+- **Relationships**:
+  - `submission_id` links to `submissions.submission_id`, tying conversations to specific submissions.
 
-#### Design Choices
-- **Embedded Data**: `events` embeds all conversation steps for efficient history retrieval.
-- **Referenced Data**: `submissionId` links to the submission.
-- **Rationale**: Embedding supports event sourcing and time-series analysis.
+---
 
-### 2.5 Analytics Data
-Captures metrics and insights.
-
-#### Sample JSON Document
+### **5. Prompt Logs**
 ```json
 {
-  "analyticsId": "an_11111",        // String: Unique identifier
-  "formId": "form_12345",           // String: Reference to form
-  "metrics": {                      // Object: Embedded metrics
-    "views": 100,                  // Number: Form views
-    "completions": 75,             // Number: Completed submissions
-    "avgTime": 120                 // Number: Avg completion time (seconds)
+  "prompt_id": "prompt_001",
+  "user_id": "user_98765",
+  "form_id": null,
+  "prompt_text": "Create a patient intake form with questions about name, age, and symptoms",
+  "ai_interpretation": {
+    "intent": "create_form",
+    "entities": {
+      "form_type": "patient_intake",
+      "questions": ["name", "age", "symptoms"]
+    }
   },
-  "timestamp": "2025-03-16T12:00:00Z" // String: ISO timestamp
+  "action": "create_form",
+  "result": {
+    "form_id": "form_12345",
+    "questions_added": ["q1", "q2", "q3"]
+  },
+  "created_at": "2025-03-16T10:00:00Z"
 }
 ```
-
-#### Design Choices
-- **Embedded Data**: `metrics` embeds key stats for fast aggregation.
-- **Referenced Data**: `formId` links to the form.
-- **Rationale**: Embedding simplifies analytics queries.
-
----
-
-## 3. Relationships and Data Flow
-
-### Entity Interactions
-- **Forms → Submissions**: One-to-Many (a form has many submissions).
-- **Users → Forms**: One-to-Many (a user creates many forms).
-- **Submissions → Conversations**: One-to-Many (a submission has multiple conversation steps).
-- **Users ↔ Organizations**: Many-to-Many (via `organizationIds` in `users`).
-
-### Managing Relationships in NoSQL
-- **Embedding**: Used for one-to-few relationships (e.g., `questions` in `forms`) to reduce queries.
-- **Referencing**: Used for one-to-many or many-to-many (e.g., `formId` in `submissions`) to avoid data duplication.
-- **Foreign Key Alternatives**: Use unique IDs (e.g., `formId`) as references, queried as needed.
-
-#### Example: One-to-Many (Forms → Submissions)
-- Form document references `formId`, and submissions embed `formId`.
-- Query: Fetch all submissions for `form_12345`.
-
-#### Example: Many-to-Many (Users ↔ Organizations)
-- `users` embeds `organizationIds`, and an `organizations` collection could store user lists if needed.
-
-#### Hierarchical Structure
-- `forms` → `questions` → `branchingLogic`: Nested hierarchy for dynamic flows.
+**Another Example (Modification):**
+```json
+{
+  "prompt_id": "prompt_002",
+  "user_id": "user_98765",
+  "form_id": "form_12345",
+  "prompt_text": "Add a question about allergies to the patient intake form",
+  "ai_interpretation": {
+    "intent": "modify_form",
+    "entities": {
+      "form_id": "form_12345",
+      "new_question": "allergies"
+    }
+  },
+  "action": "modify_form",
+  "result": {
+    "question_added": "q3",
+    "new_version": 2
+  },
+  "created_at": "2025-03-17T12:00:00Z"
+}
+```
+- **Relationships**:
+  - `user_id` links to `users.user_id`, identifying the prompt issuer.
+  - `form_id` links to `forms.form_id` (null for new form creation), associating prompts with affected forms.
+  - `prompt_id` is referenced by `forms.created_by_prompt_id` and `forms.modified_by_prompt_ids`, connecting prompts to form creation/modification.
 
 ---
 
-## 4. Indexing Strategy
-
-### Recommended Indexes
-- **Forms**: `formId` (primary), `creatorId`, `createdAt`.
-- **Users**: `userId` (primary), `email` (unique), `organizationIds`.
-- **Submissions**: `submissionId` (primary), `formId`, `submittedAt`.
-- **Conversations**: `conversationId` (primary), `submissionId`, `events.timestamp`.
-- **Analytics**: `analyticsId` (primary), `formId`, `timestamp`.
-
-### Index Types
-- **Compound Indexes**: `formId` + `submittedAt` in `submissions` for range queries.
-- **Partial Indexes**: Index `status: "published"` in `forms` for active forms only.
-- **Text Search Indexes**: `title` in `forms` for search functionality.
-
-### Rationale
-Indexes optimize reads for form retrieval, submission history, and analytics, balancing write overhead.
-
----
-
-## 5. Scalability and Partitioning Strategy
-
-### Scaling Strategies
-- **Sharding**: Partition by `formId` to distribute high-traffic forms.
-- **Bucketing**: Group `submissions` and `conversations` by time (e.g., `submissions_2025_03`).
-- **Replication**: Use read replicas for analytics queries.
-
-### Partition Keys
-- **Primary**: `formId` for even distribution across forms.
-- **Secondary**: `userId` for user-specific workloads.
-
-### Rationale
-Sharding by `formId` isolates high-traffic forms (e.g., marketing campaigns), while bucketing manages growth.
-
----
-
-## 6. Security and Data Protection
-
-### Best Practices
-- **Encryption**: Encrypt sensitive fields (e.g., `responses.answer`) at rest and in transit.
-- **Tokenization**: Use tokens for `userId` in public-facing APIs.
-- **RBAC**: Enforce roles (`roles` in `users`) for basic access.
-- **ABAC**: Use `permissions` for fine-grained control (e.g., `canEditForms`).
-
-### Implementation
-- Store encrypted data in `responses` for healthcare use cases.
-- Validate permissions on every query using application logic.
-
----
-
-## 7. Backup, Recovery, and Data Retention
-
-### Backup Strategies
-- **Incremental Backups**: Daily snapshots of active collections.
-- **Point-in-Time Recovery**: Log transactions for rollback.
-
-### Retention Policies
-- **Forms**: Archive inactive forms after 6 months.
-- **Submissions/Conversations**: Retain for 1 year, then move to cold storage.
-- **Analytics**: Keep indefinitely for historical trends.
-
-### Rationale
-Ensures data integrity while managing storage costs.
-
----
-
-## 8. Maintenance and Performance Tuning
-
-### Monitoring
-- Track query latency, index usage, and storage growth.
-- Use tools like MongoDB Atlas Profiler or DynamoDB CloudWatch.
-
-### Optimization Tips
-- **Query Optimization**: Avoid over-fetching; use projections.
-- **Caching**: Cache frequent reads (e.g., form metadata) in Redis.
-- **Latency Reduction**: Pre-aggregate analytics data nightly.
-
+### **Summary of Relationships**
+- **`users`**: Central entity linking to `forms` (via `creator_id`), `submissions` (via `user_id`), and `prompt_logs` (via `user_id`).
+- **`forms`**: Linked to `users` (creator), `prompt_logs` (creation/modification prompts), and `submissions` (form responses).
+- **`submissions`**: Connected to `forms` (form structure), `users` (submitter), and `conversations` (interaction logs).
+- **`conversations`**: Tied to `submissions` (context of interaction).
+- **`prompt_logs`**: Linked to `users` (prompt issuer) and `forms` (affected form or new form creation).
