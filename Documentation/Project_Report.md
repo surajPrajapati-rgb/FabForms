@@ -6,8 +6,9 @@
 
 👉 [UI Design](https://www.figma.com/design/WQyxLAKiWOsXGqLHfEc5g7/Untitled?node-id=1-550&t=xEeYSzeP0RmXsJn4-1) 
 
- 👉 [Database Design](#database-design)
+👉 [UserFlow](#userflow)
 
+👉 [Database Design](#database-design)
 
 👉 [Service-Oriented Architecture](#service-oriented-architecture)  
 
@@ -99,6 +100,11 @@ FabForms targets **five core industries**, each with distinct user groups:
 | **Support Agents** | Ticketing, conversational interfaces | Repetitive queries | Auto-suggested FAQs, live chat integration |  
 | **Support Managers** | Performance tracking, reporting | Siloed data | Real-time analytics, agent training tools |  
 
+
+
+### [UserFlow](#userflow)
+
+![](https://github.com/surajPrajapati-rgb/FabForms/blob/cf1d3a4624e477c5d1067591fc87930c9ac2926c/Documentation/assets/UserFlow.png)
 ---
 
 ### [Service-Oriented Architecture](#service-oriented-architecture)
