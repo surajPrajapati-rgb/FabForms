@@ -1,11 +1,11 @@
 # Product Report
 ## 🗂️ Design Resources
 
-### **UI Design (Figma)**
-👉 [View UI Design](https://www.figma.com/design/WQyxLAKiWOsXGqLHfEc5g7/Untitled?node-id=1-550&t=xEeYSzeP0RmXsJn4-1)
 
-### **System Design Diagram**
+👉 [View UI Design](https://www.figma.com/design/WQyxLAKiWOsXGqLHfEc5g7/Untitled?node-id=1-550&t=xEeYSzeP0RmXsJn4-1)
 👉 [View System Design](https://www.mermaidchart.com/raw/dee00f7d-a20c-4870-a513-278dd6621981?theme=light&version=v0.1&format=svg)
+👉 [View Service-Oriented Architecture](https://github.com/surajPrajapati-rgb/FabForms/blob/984e7dc60007fd588730bd8e8e930f748cebbf09/Documentation/assets/Service-Oriented%20Architecture.png)
+
 
 ## Proposal
 
