@@ -1,22 +1,25 @@
 # Product Report
-## 🗂️ Design Resources
 
+## 🗂️ Design Resources
+👉 [View Introduction](#introduction)  
+
+👉 [View User Segmentation](#user-segmentation)  
 
 👉 [View UI Design](https://www.figma.com/design/WQyxLAKiWOsXGqLHfEc5g7/Untitled?node-id=1-550&t=xEeYSzeP0RmXsJn4-1) 
 
-👉 [View System Design](https://www.mermaidchart.com/raw/dee00f7d-a20c-4870-a513-278dd6621981?theme=light&version=v0.1&format=svg)
+👉 [View Service-Oriented Architecture](#service-oriented-architecture)  
 
-👉 [View Service-Oriented Architecture](https://github.com/surajPrajapati-rgb/FabForms/blob/984e7dc60007fd588730bd8e8e930f748cebbf09/Documentation/assets/Service-Oriented%20Architecture.png)
+👉 [View System Design](https://www.mermaidchart.com/raw/dee00f7d-a20c-4870-a513-278dd6621981?theme=light&version=v0.1&format=svg)  
 
 
 ## Proposal
 
 ### Team
-- Ashutosh
-- Sahil
-- Suraj 
+- Ashutosh  
+- Sahil  
+- Suraj  
 
-### Introduction
+### [Introduction](#introduction)
 FabForms is an innovative web application that transforms traditional form creation and data collection into an interactive, conversational experience.
 
 ### What is your product about?
@@ -25,72 +28,41 @@ FabForms leverages conversational interfaces to create a developer-friendly yet 
 ### Why you want to build this product?
 We aim to enhance user engagement, accessibility, and intelligent automation in form creation and data collection.
 
-### Users
-- Educators
-- Healthcare providers
-- HR professionals
-- Marketers
-- Customer support teams
+### [Users](#user-segmentation)
+- Educators  
+- Healthcare providers  
+- HR professionals  
+- Marketers  
+- Customer support teams  
 
 ### Use Cases
-- Interactive quizzes and feedback forms for students.
-- Patient intake forms with symptom tracking.
-- Employee surveys, recruitment and onboarding processes.
-- Lead generation and customer feedback collection.
-- Ticketing forms with conversational interfaces.
+- Interactive quizzes and feedback forms for students.  
+- Patient intake forms with symptom tracking.  
+- Employee surveys, recruitment, and onboarding processes.  
+- Lead generation and customer feedback collection.  
+- Ticketing forms with conversational interfaces.  
 
 ### Differentiating Features
-- AI-Powered Dynamic Responses
-- Real-Time Validation and Feedback
-- Analytics and Data Dashboard
+- AI-Powered Dynamic Responses  
+- Real-Time Validation and Feedback  
+- Analytics and Data Dashboard  
 
 ### HCI Principles highlighted in the product
-- Simplicity
-- Accessibility
-- Flexibility
-- Live interaction
+- Simplicity  
+- Accessibility  
+- Flexibility  
+- Live interaction  
 
-## Users Segmentation
+### [User Segmentation](#user-segmentation)
+FabForms targets **five core industries**, each with distinct user groups:  
+- **Educators**: Need for engaging and interactive forms for students.  
+- **Healthcare Providers**: Efficient patient intake and symptom tracking.  
+- **HR Professionals**: Streamlined employee surveys and onboarding.  
+- **Marketers**: Effective lead generation and customer feedback.  
+- **Customer Support Teams**: Quick and efficient ticketing systems.  
 
-### Identify and categorize different users
-- **Educators**: Teachers, professors, and educational administrators.
-- **Healthcare Providers**: Doctors, nurses, and medical staff.
-- **HR Professionals**: HR managers and recruiters.
-- **Marketers**: Marketing managers and analysts.
-- **Customer Support Teams**: Support agents and managers.
+### **Needs, Pain Points, Challenges & Preferences**
 
-### Identify their pain points / challenges / needs/ preferences
-- **Educators**: Need for engaging and interactive forms for students.
-- **Healthcare Providers**: Efficient patient intake and symptom tracking.
-- **HR Professionals**: Streamlined employee surveys and onboarding.
-- **Marketers**: Effective lead generation and customer feedback.
-- **Customer Support Teams**: Quick and efficient ticketing systems.
-
-### Prioritize pain points
-1. Efficient patient intake and symptom tracking.
-2. Engaging and interactive forms for students.
-3. Streamlined employee surveys and onboarding.
-4. Effective lead generation and customer feedback.
-5. Quick and efficient ticketing systems.
-
-## Features
-
-### High Level Features that address the prioritized pain points
-- AI-Powered Dynamic Responses for real-time interaction.
-- Real-Time Validation and Feedback to ensure data accuracy.
-- Analytics and Data Dashboard for comprehensive insights.
-
-
-### **1. User Segmentation**
-FabForms targets **five core industries**, each with distinct user groups:
-- **Educators**: Need for engaging and interactive forms for students.
-- **Healthcare Providers**: Efficient patient intake and symptom tracking.
-- **HR Professionals**: Streamlined employee surveys and onboarding.
-- **Marketers**: Effective lead generation and customer feedback.
-- **Customer Support Teams**: Quick and efficient ticketing systems.
-
-
-### **2. Needs, Pain Points, Challenges & Preferences**
 #### **Education**
 | **User Group** | **Needs** | **Pain Points** | **Challenges** | **Preferences** |  
 |--------------|-----------|----------------|--------------|--------------|  
@@ -113,7 +85,6 @@ FabForms targets **five core industries**, each with distinct user groups:
 | **Nurses** | Quick form creation, real-time updates | Tech-averse patients | Voice/visual input support |  
 | **Medical Staff** | Data organization, compliance | Manual data transfers | Drag-and-drop form builders |  
 
-
 #### **Marketing**
 | **User Group** | **Needs** | **Pain Points** | **Preferences** |  
 |----------------|-----------|-----------------|-----------------|  
@@ -128,26 +99,6 @@ FabForms targets **five core industries**, each with distinct user groups:
 
 ---
 
-### **3. Features to Address Needs & Pain Points**
-#### **Core Features for All Users**
-- **Conversational Interface**: Chat-like form interactions.
-- **AI-Powered Dynamic Logic**: Auto-skip irrelevant questions.
-- **Multi-Modal Input**: Voice, text, image, or video responses.
-- **Real-Time Validation**: Instant error correction.
-
-
-#### **Advanced Features**
-- **Analytics Dashboard**: Track trends, completion rates, and engagement.
-- **Smart Form Recommendations**: AI suggests templates based on use case.
-- **Role-Based Access Control**: Define permissions (admin, editor, viewer).
-
----
-
-### **Prioritization**
-1. **MVP Features**: Conversational interface, dynamic logic, real-time validation.
-2. **Industry-Specific Modules**: Start with Education (quiz mode) and Healthcare (HIPAA compliance).
-
----
-
-### **Service-Oriented Architecture**
+### [Service-Oriented Architecture](#service-oriented-architecture)
 ![Service-Oriented Architecture](https://github.com/surajPrajapati-rgb/FabForms/blob/984e7dc60007fd588730bd8e8e930f748cebbf09/Documentation/assets/Service-Oriented%20Architecture.png)
+
