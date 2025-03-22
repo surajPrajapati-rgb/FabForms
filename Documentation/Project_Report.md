@@ -8,11 +8,16 @@
 
 👉 [UserFlow](#userflow)
 
+👉 [High Level Architecture](#high-level-architecture)
+
 👉 [Database Design](#database-design)
 
 👉 [Service-Oriented Architecture](#service-oriented-architecture)  
 
 👉 [System Design](https://www.mermaidchart.com/raw/dee00f7d-a20c-4870-a513-278dd6621981?theme=light&version=v0.1&format=svg)  
+
+👉 [API Design](#api-design)
+
 
 
 ## Proposal
@@ -109,6 +114,11 @@ FabForms targets **five core industries**, each with distinct user groups:
 
 ### [Service-Oriented Architecture](#service-oriented-architecture)
 ![Service-Oriented Architecture](https://github.com/surajPrajapati-rgb/FabForms/blob/984e7dc60007fd588730bd8e8e930f748cebbf09/Documentation/assets/Service-Oriented%20Architecture.png)
+
+---
+
+### High Level Architecture
+![](https://github.com/surajPrajapati-rgb/FabForms/blob/cf5c1393113abde7f2d911871bdcc76d1f705c07/Documentation/assets/High_level_Arch.png)
 
 ---
 
@@ -346,4 +356,133 @@ FabForms targets **five core industries**, each with distinct user groups:
 - **`conversations`**: Tied to `submissions` (context of interaction).
 - **`prompt_logs`**: Linked to `users` (prompt issuer) and `forms` (affected form or new form creation).
 
+---
 
+
+### API Design
+
+
+#### **Roles and Permissions**
+- **`admin`**:
+  - Permissions: Full access—manage users (create, update, delete), view all forms/submissions, edit system settings.
+  - Use Case: System administrators overseeing FabForms operations.
+- **`creator`**:
+  - Permissions: Create, read, update, delete own forms; view own submissions; submit prompts for form creation/modification.
+  - Use Case: Form designers building and managing forms.
+- **`user` (responder)**:
+  - Permissions: Submit forms, view own submissions, interact with AI for real-time feedback.
+  - Use Case: End-users filling out forms.
+
+#### **Authentication and Authorization**
+- **Authentication**: JSON Web Tokens (JWT) issued after login, containing `user_id`, `roles`, and expiration.
+- **Authorization**: Middleware checks `roles` and `permissions` against endpoint requirements.
+
+#### **User Management Endpoints**
+- **Base Path**: `/v1/users`
+- **Endpoints**:
+  1. **`POST /v1/users`** (Admin only)
+     - **Description**: Create a new user.
+     - **Request**: 
+       ```json
+       {
+         "email": "jane.doe@example.com",
+         "name": "Jane Doe",
+         "roles": ["creator"],
+         "organization_ids": ["org_45678"],
+         "permissions": { "can_edit_forms": true },
+         "static_data": { "name": "Jane Doe", "email": "jane.doe@example.com" }
+       }
+       ```
+     - **Response**: `201 Created`, `{ "user_id": "user_12345" }`
+  2. **`GET /v1/users`** (Admin only)
+     - **Description**: List all users.
+     - **Response**: `200 OK`, `{ "users": [{ "user_id": "user_12345", ... }] }`
+  3. **`GET /v1/users/{user_id}`** (Admin or self)
+     - **Description**: Retrieve user details.
+     - **Response**: `200 OK`, `{ "user_id": "user_12345", "email": "jane.doe@example.com", ... }`
+  4. **`PUT /v1/users/{user_id}`** (Admin or self)
+     - **Description**: Update user details (e.g., `static_data`).
+     - **Request**: `{ "static_data": { "age": 25 } }`
+     - **Response**: `200 OK`, `{ "user_id": "user_12345", ... }`
+  5. **`DELETE /v1/users/{user_id}`** (Admin only)
+     - **Description**: Delete a user.
+     - **Response**: `204 No Content`
+
+#### **General Notes**
+- **Versioning**: All endpoints use `/v1/` prefix for future compatibility.
+- **Rate Limiting**: 100 requests/minute per user, enforced at API Gateway.
+- **Authentication**: JWT required in `Authorization: Bearer <token>` header.
+
+#### **Form Management Endpoints**
+- **Base Path**: `/v1/forms`
+1. **`POST /v1/forms`** (Creator)
+   - **Description**: Create a form (manual or prompt-based).
+   - **Request**: 
+     ```json
+     {
+       "title": "Patient Intake",
+       "questions": [{ "text": "Name", "type": "text", "auto_fillable": true }],
+       "prompt_text": "Create a patient intake form with name and age"
+     }
+     ```
+   - **Response**: `201 Created`, `{ "form_id": "form_12345" }`
+2. **`GET /v1/forms/{form_id}`** (Creator or Admin)
+   - **Description**: Retrieve a form.
+   - **Response**: `200 OK`, `{ "form_id": "form_12345", "title": "Patient Intake", ... }`
+3. **`PUT /v1/forms/{form_id}`** (Creator)
+   - **Description**: Update a form (manual or prompt-based).
+   - **Request**: `{ "prompt_text": "Add a question about allergies" }`
+   - **Response**: `200 OK`, `{ "form_id": "form_12345", "version": 2, ... }`
+4. **`DELETE /v1/forms/{form_id}`** (Creator or Admin)
+   - **Description**: Delete a form.
+   - **Response**: `204 No Content`
+5. **`GET /v1/forms`** (Creator or Admin)
+   - **Description**: List forms by creator or organization.
+   - **Query**: `?creator_id=user_98765`
+   - **Response**: `200 OK`, `{ "forms": [{ "form_id": "form_12345", ... }] }`
+
+#### **Submission Handling Endpoints**
+- **Base Path**: `/v1/submissions`
+1. **`POST /v1/submissions`** (User)
+   - **Description**: Submit a form with AI auto-filling.
+   - **Request**: 
+     ```json
+     {
+       "form_id": "form_12345",
+       "responses": [{ "question_id": "q3", "answer": "Yes, peanuts" }]
+     }
+     ```
+   - **Response**: `201 Created`, `{ "submission_id": "sub_54321", "auto_filled": ["q1", "q2"] }`
+2. **`GET /v1/submissions/{submission_id}`** (User or Creator or Admin)
+   - **Description**: Retrieve a submission.
+   - **Response**: `200 OK`, `{ "submission_id": "sub_54321", ... }`
+3. **`GET /v1/submissions`** (Creator or Admin)
+   - **Description**: List submissions by form or user.
+   - **Query**: `?form_id=form_12345`
+   - **Response**: `200 OK`, `{ "submissions": [{ "submission_id": "sub_54321", ... }] }`
+
+#### **Prompt Processing Endpoints**
+- **Base Path**: `/v1/prompts`
+1. **`POST /v1/prompts`** (Creator)
+   - **Description**: Submit a prompt to create/modify a form.
+   - **Request**: `{ "prompt_text": "Add a question about allergies to form_12345" }`
+   - **Response**: `201 Created`, `{ "prompt_id": "prompt_002", "result": { "question_added": "q3" } }`
+2. **`GET /v1/prompts/{prompt_id}`** (Creator or Admin)
+   - **Description**: Retrieve prompt details.
+   - **Response**: `200 OK`, `{ "prompt_id": "prompt_002", ... }`
+3. **`GET /v1/prompts`** (Creator or Admin)
+   - **Description**: List prompts by user or form.
+   - **Query**: `?form_id=form_12345`
+   - **Response**: `200 OK`, `{ "prompts": [{ "prompt_id": "prompt_002", ... }] }`
+
+#### **Conversation Logs Endpoints**
+- **Base Path**: `/v1/conversations`
+1. **`GET /v1/conversations/{conversation_id}`** (User or Creator or Admin)
+   - **Description**: Retrieve conversation log.
+   - **Response**: `200 OK`, `{ "conversation_id": "conv_78910", ... }`
+2. **`GET /v1/conversations`** (Creator or Admin)
+   - **Description**: List conversations by submission.
+   - **Query**: `?submission_id=sub_54321`
+   - **Response**: `200 OK`, `{ "conversations": [{ "conversation_id": "conv_78910", ... }] }`
+
+---
