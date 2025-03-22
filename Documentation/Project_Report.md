@@ -1,6 +1,5 @@
 # Product Report
 
-## 🗂️ Design Resources
 👉 [Introduction](#introduction)  
 
 👉 [User Segmentation](#user-segmentation)  
