@@ -7,7 +7,8 @@
 
 👉 [UI Design](https://www.figma.com/design/WQyxLAKiWOsXGqLHfEc5g7/Untitled?node-id=1-550&t=xEeYSzeP0RmXsJn4-1) 
 
-👉 [Database](#database-design-diagram)  
+ 👉 [Database Design](#database-design)
+
 
 👉 [Service-Oriented Architecture](#service-oriented-architecture)  
 
@@ -107,6 +108,7 @@ FabForms targets **five core industries**, each with distinct user groups:
 ---
 
 ### [Database Design](#database-design-diagram)
+
 ![](https://github.com/surajPrajapati-rgb/FabForms/blob/e20838505a4db2e20f77799a09ecd6e4c1534c03/Documentation/assets/db_diagram.png)
 
 ### **1. Forms**
