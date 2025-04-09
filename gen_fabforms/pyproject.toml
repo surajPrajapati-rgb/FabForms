@@ -1,0 +1,23 @@
+[project]
+name = "gen_fabforms"
+version = "0.1.0"
+description = "Gen-FabForms using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.102.0,<1.0.0"
+]
+
+[project.scripts]
+gen_fabforms = "gen_fabforms.main:run"
+run_crew = "gen_fabforms.main:run"
+train = "gen_fabforms.main:train"
+replay = "gen_fabforms.main:replay"
+test = "gen_fabforms.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
