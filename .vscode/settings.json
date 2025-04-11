@@ -1,0 +1,6 @@
+{
+  "python.analysis.extraPaths": [
+    "./gen_fabforms/src/gen_",
+    "./gen_fabforms/src/gen_"
+  ]
+}
