@@ -1,17 +1,100 @@
-research_task:
-  description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
-  expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+analyze_requirements:
+  name: "Input-to-Specification Transformer"
+  description: |
+    Convert raw user inputs into structured FormSpecification:
+    - Industry: {industry}
+    - User Group: {user_group} 
+    - Purpose: {form_purpose}
+    - Compliance: {compliance_requirements}
+    - Integrations: {integration_needs}
 
-reporting_task:
-  description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
-  expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
+    Output must include:
+    - Mapped regulatory requirements
+    - Validated integration endpoints  
+    - Normalized form purpose category
+  expected_output: |
+    Fully validated FormSpecification JSON object
+    with technical implementation details
+  output_json: "FormSpecification"
+  agent: "requirement_analyst"
+# Education Tasks
+CreateInteractiveQuiz:
+  name: "Gamified Assessment Builder"
+  description: |
+    Generate JSON form template for educational quizzes with:
+    - Auto-grading capabilities
+    - Progress tracking
+    - Multimedia support
+    - Adaptive difficulty levels
+  expected_output: JSON schema with gamification parameters
+  agent: TeacherAgent
+
+AcademicAssessmentTask:
+  name: "Secure Test Generator"
+  description: |
+    Create proctored assessment forms with:
+    - Plagiarism detection hooks
+    - Time-based constraints
+    - LMS integration points
+    - Question randomization
+  expected_output: JSON structure with anti-cheat measures
+  agent: ProfessorAgent
+
+# HR Tasks
+RecruitmentWorkflowTask:
+  name: "Candidate Evaluation System"
+  description: |
+    Build applicant tracking form with:
+    - Resume parsing integration
+    - Structured interview guides
+    - Collaborative rating system
+    - ATS compatibility
+  expected_output: JSON form with LinkedIn/ATS API endpoints
+  agent: RecruiterAgent
+
+# EmployeeSurveyTask:
+#   name: "Anonymous Feedback Collector"
+#   description: |
+#     Design secure feedback form featuring:
+#     - Sentiment analysis hooks
+#     - Progress saving
+#     - Multi-language support
+#     - Data anonymity guarantees
+#   expected_output: JSON schema with encryption markers
+#   agent: EmployeeFeedbackAgent
+
+# Healthcare Tasks
+PatientIntakeTask:
+  name: "Medical History Form Builder"
+  description: |
+    Create HIPAA-compliant forms with:
+    - Voice/visual input support
+    - Symptom severity scales
+    - Medication tracking
+    - EHR integration
+  expected_output: JSON template with HL7/FHIR compliance
+  agent: MedicalIntakeAgent
+
+# Marketing Tasks
+LeadCaptureTask:
+  name: "Conversational Lead Gen Form"
+  description: |
+    Develop chatbot-style form with:
+    - Progressive profiling
+    - Lead scoring
+    - CRM integration
+    - Conditional branching
+  expected_output: JSON structure with chatbot flow
+  agent: LeadGenAgent
+
+# Support Tasks
+TicketCreationTask:
+  name: "Intelligent Support Form"
+  description: |
+    Build ticketing form with:
+    - Auto-suggested solutions
+    - Priority scoring
+    - Knowledge base integration
+    - SLA tracking
+  expected_output: JSON schema with escalation rules
+  agent: TicketSystemAgent
