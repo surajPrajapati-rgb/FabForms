@@ -1,62 +1,93 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from langchain_openai import OpenAI
+from pydantic import BaseModel
 
-# If you want to run a snippet of code before or after the crew starts, 
-# you can use the @before_kickoff and @after_kickoff decorators
-# https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
+class FormSpecification(BaseModel):
+    industry: str
+    user_group: str 
+    form_purpose: str
+    compliance_requirements: list[str]
+    integration_needs: list[str]
 
 @CrewBase
-class GenFabforms():
-	"""GenFabforms crew"""
+class FormGenerationCrew:
+    """FabForms generation crew"""
+    
+    agents_config = 'config/agents.yaml'
+    tasks_config = 'config/tasks.yaml'
+    
+    @agent
+    def requirement_analyst(self) -> Agent:
+        return Agent(config=self.agents_config['requirement_analyst'])
+    # Education Agents
+    @agent
+    def TeacherAgent(self) -> Agent:
+        return Agent(config=self.agents_config['TeacherAgent'])
+    
+    @agent 
+    def ProfessorAgent(self) -> Agent:
+        return Agent(config=self.agents_config['ProfessorAgent'])
+    
+    # Healthcare Agents
+    @agent
+    def MedicalIntakeAgent(self) -> Agent:
+        return Agent(config=self.agents_config['MedicalIntakeAgent'])
+    
+    # HR Agents
+    @agent
+    def RecruiterAgent(self) -> Agent:
+        return Agent(config=self.agents_config['RecruiterAgent'])
+    
+    # Marketing Agents
+    @agent
+    def LeadGenAgent(self) -> Agent:
+        return Agent(config=self.agents_config['LeadGenAgent'])
+    
+    # Support Agents
+    @agent
+    def TicketSystemAgent(self) -> Agent:
+        return Agent(config=self.agents_config['TicketSystemAgent'])
 
-	# Learn more about YAML configuration files here:
-	# Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
-	# Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
-	agents_config = 'config/agents.yaml'
-	tasks_config = 'config/tasks.yaml'
+    # Core Tasks
+    @task
+    def analyze_requirements(self) -> Task:
+        return Task(
+            config=self.tasks_config['analyze_requirements'],
+            output_json=FormSpecification
+        )
+    
+    @task
+    def generate_form_schema(self) -> Task:
+        return Task(
+            config=self.tasks_config['generate_form_schema'],
+            output_file='form_schema.json'
+        )
+    
+    @task
+    def validate_compliance(self) -> Task:
+        return Task(
+            config=self.tasks_config['validate_compliance']
+        )
 
-	# If you would like to add tools to your agents, you can learn more about it here:
-	# https://docs.crewai.com/concepts/agents#agent-tools
-	@agent
-	def researcher(self) -> Agent:
-		return Agent(
-			config=self.agents_config['researcher'],
-			verbose=True
-		)
-
-	@agent
-	def reporting_analyst(self) -> Agent:
-		return Agent(
-			config=self.agents_config['reporting_analyst'],
-			verbose=True
-		)
-
-	# To learn more about structured task outputs, 
-	# task dependencies, and task callbacks, check out the documentation:
-	# https://docs.crewai.com/concepts/tasks#overview-of-a-task
-	@task
-	def research_task(self) -> Task:
-		return Task(
-			config=self.tasks_config['research_task'],
-		)
-
-	@task
-	def reporting_task(self) -> Task:
-		return Task(
-			config=self.tasks_config['reporting_task'],
-			output_file='report.md'
-		)
-
-	@crew
-	def crew(self) -> Crew:
-		"""Creates the GenFabforms crew"""
-		# To learn how to add knowledge sources to your crew, check out the documentation:
-		# https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
-		return Crew(
-			agents=self.agents, # Automatically created by the @agent decorator
-			tasks=self.tasks, # Automatically created by the @task decorator
-			process=Process.sequential,
-			verbose=True,
-			# process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
-		)
+    @crew
+    def crew(self) -> Crew:
+        """Create form generation crew with dynamic routing"""
+        return Crew(
+            agents=self.agents,
+            tasks=[
+                self.analyze_requirements(),
+                self.generate_form_schema(),
+                self.validate_compliance()
+            ],
+            process=Process.hierarchical,
+            manager_llm=OpenAI(temperature=0.2),
+            verbose=2,
+            memory=True,
+            full_output=True
+        )
+    
+    def validate_form_schema(self, filename: str):
+        """External validation method"""
+        validator = Task(config=self.tasks_config['validate_compliance'])
+        return validator.execute({"form_schema": filename})
