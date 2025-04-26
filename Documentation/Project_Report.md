@@ -18,6 +18,8 @@
 
 👉 [API Design](#api-design)
 
+👉 [Product Strategy](https://github.com/surajPrajapati-rgb/FabForms/blob/7baace90d74c808c5dc88b99afb185c0500ff66c/Documentation/Product%20Strategy.markdown)
+
 
 
 ## Proposal
