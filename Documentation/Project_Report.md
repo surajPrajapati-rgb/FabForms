@@ -22,7 +22,9 @@
 
 👉 [Feature Prioritization (RICE Model)](https://github.com/surajPrajapati-rgb/FabForms/blob/master/Documentation/Project_Report.md#feature-prioritization-rice-model)
 
+👉 [Testing and Validation](https://github.com/surajPrajapati-rgb/FabForms/blob/master/Documentation/Project_Report.md#testing-and-validation)
 
+👉 [Ethical Considerations and Compliance](https://github.com/surajPrajapati-rgb/FabForms/blob/master/Documentation/Project_Report.md#ethical-considerations-and-compliance)
 
 
 
