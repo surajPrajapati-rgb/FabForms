@@ -20,6 +20,8 @@
 
 👉 [Product Strategy](https://github.com/surajPrajapati-rgb/FabForms/blob/7baace90d74c808c5dc88b99afb185c0500ff66c/Documentation/Product%20Strategy.markdown)
 
+👉 [Feature Prioritization (RICE Model)](https://github.com/surajPrajapati-rgb/FabForms/blob/master/Documentation/Project_Report.md#feature-prioritization-rice-model)
+
 
 
 
