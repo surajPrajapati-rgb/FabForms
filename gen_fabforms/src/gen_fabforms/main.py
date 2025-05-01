@@ -4,6 +4,7 @@ import warnings
 from datetime import datetime
 from gen_fabforms.crew import FormGenerationCrew
 from gen_fabforms.crew import FormSpecification
+import json
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -62,8 +63,24 @@ def run():
             compliance_requirements=inputs['compliance_requirements'],
             integration_needs=inputs['integration_needs']
         )
-        # spec = FormSpecification(**inputs)
-        FormGenerationCrew().crew().kickoff(inputs=input_spec)
+        # Convert Pydantic model to dictionary and format for crew
+        # Convert inputs to strings to avoid unhashable types
+        stringified_inputs = {
+            "industry": inputs['industry'],
+            "user_group": inputs['user_group'],
+            "form_purpose": inputs['form_purpose'],
+            "compliance_requirements": str(inputs['compliance_requirements']),
+            "integration_needs": str(inputs['integration_needs'])
+        }
+        
+        print("Debug - Sending inputs to Crew:", stringified_inputs)
+        
+        try:
+            FormGenerationCrew().crew().kickoff(inputs=stringified_inputs)
+        except Exception as e:
+            import traceback
+            print(f"\n❌ Detailed error: {str(e)}")
+            traceback.print_exc()
 
         
     except Exception as e:

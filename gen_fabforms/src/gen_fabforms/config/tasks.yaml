@@ -17,6 +17,33 @@ analyze_requirements:
     with technical implementation details
   output_json: "FormSpecification"
   agent: "requirement_analyst"
+
+generate_form_schema:
+  name: "Form Schema Generator"
+  description: |
+    Generate a complete JSON schema for the form based on the requirements analysis.
+    Include appropriate fields, validation rules, and UI components based on:
+    - Industry: {industry}
+    - User Group: {user_group}
+    - Purpose: {form_purpose}
+    - Compliance: {compliance_requirements}
+    - Integrations: {integration_needs}
+  expected_output: |
+    Complete JSON schema for the form with all necessary fields and validation rules
+  agent: "requirement_analyst"
+  
+validate_compliance:
+  name: "Compliance Validator"
+  description: |
+    Validate the generated form schema against compliance requirements:
+    - Check all required fields for specified compliance standards
+    - Verify data handling practices match regulatory requirements
+    - Ensure proper validation rules are in place
+    - Confirm integration endpoints meet security standards
+  expected_output: |
+    Compliance validation report with any issues identified and recommendations
+  agent: "requirement_analyst"
+
 # Education Tasks
 CreateInteractiveQuiz:
   name: "Gamified Assessment Builder"
