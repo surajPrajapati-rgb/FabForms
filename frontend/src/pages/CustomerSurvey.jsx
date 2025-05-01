@@ -21,7 +21,7 @@ const CustomerSurvey = () => {
           <input type="file" className="border rounded p-2" />
           <span className="ml-2 text-gray-500">PDF, DOC, IMG up to 20Mb</span>
         </div>
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded w-full">Submit Response</button>
+        <button type="submit" className="bg-white text-[#0B0F19] px-4 py-2 rounded w-full">Submit Response</button>
       </form>
       <p className="text-center mt-4 text-gray-500">Powered by FabForms</p>
     </div>
